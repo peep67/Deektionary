@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>The Deeksoniary</title>
+  <!-- Favicon from assets folder -->
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      color: white;
+      font-family: 'Courier New', monospace;
+      padding: 40px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      text-shadow: 0 0 10px white;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-bottom: 40px;
+      color: #fff;
+      text-shadow: 0 0 5px white;
+    }
+
+    details {
+      margin-bottom: 10px;
+      background: #111;
+      padding: 10px;
+      border: 1px solid #333;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    details[open] {
+      box-shadow: 0 0 10px white;
+    }
+
+    summary {
+      cursor: pointer;
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-shadow: 0 0 5px white;
+    }
+
+    .word {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin: 10px 0 2px 0;
+    }
+
+    .definition {
+      font-size: 1rem;
+      margin: 0 0 8px 10px;
+      color: #fff;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #333;
+      margin: 5px 0 10px 0;
+    }
+
+    .back {
+      display: block;
+      margin: 20px auto;
+      width: fit-content;
+      padding: 10px 20px;
+      background: white;
+      color: black;
+      text-align: center;
+      border-radius: 25px;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .back:hover {
+      background: #eee;
+      color: black;
+      text-shadow: 0 0 3px white;
+    }
+  </style>
+</head>
+<body>
+
+<h1>The Deeksoniary</h1>
+<div class="subtitle">Get to know the slang</div>
+
+<div id="letters"></div>
+
+<!-- Back To Top button -->
+<button class="back" onclick="scrollToTop()">Back To Top</button>
+
+<script>
+  // Click sound (uses local asset if added later)
+  const clickSound = new Audio('assets/click.mp3'); 
+  document.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      clickSound.currentTime = 0;
+      clickSound.play();
+    });
+  });
+
+  const words = [
+    "ari = desperate",
+    "ashwadganda = chill asf",
+    "ava = bz bz bz",
+    "baseball bat = tung tung tung sahur",
+    "bitch = beach",
+    "bsb2e = second son of bigscreen beta",
+    "brother noah = ur a beach",
+    "caleb = masculine finen shyte",
+    "can i clone ur avi? = alex (super jew)",
+    "diddy = sus",
+    "dick = deek",
+    "el cuatro = the foruth son of sony",
+    "el cinco = the fith son of sony",
+    "el cinco reparar hombre = ps5 repair man",
+    "everybody makes mistakes = domio is sus blud",
+    "faethy = fine shyte",
+    "fduzz = furry danish huzz",
+    "fuck = fook",
+    "fuzz = furry huzz",
+    "gdsky = baddest B",
+    "jacko = zesty/gay",
+    "jokes reposts = the worst decisions a human can make",
+    "lost media = we dont know / care",
+    "niche = lost media",
+    "ohio = im serious",
+    "pibby virus = sick/ infected",
+    "pigtails = bad B",
+    "pitiful = puppy",
+    "piss = peace",
+    "rec room = reccy / double R's",
+    "sad = secretly affeliated (with) diddy (ty TR son of CR)",
+    "scp = everything",
+    "scd = super cool diddy",
+    "shit = sheet",
+    "sus = soos",
+    "tristan varients = radium rapture",
+    "twice vr = huzz",
+    "uncslop = ur literally 40",
+    "vrchat = chatty",
+    "wabi sabi = offcenter"
+  ];
+
+  const container = document.getElementById("letters");
+  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+  alphabet.split("").forEach(letter => {
+    const details = document.createElement("details");
+    const summary = document.createElement("summary");
+    summary.textContent = letter;
+    details.appendChild(summary);
+
+    const filteredWords = words
+      .filter(w => w[0].toUpperCase() === letter)
+      .sort((a, b) => a.localeCompare(b));
+
+    if (filteredWords.length === 0) {
+      const empty = document.createElement("p");
+      empty.textContent = "No words for this letter yet.";
+      details.appendChild(empty);
+    } else {
+      filteredWords.forEach(word => {
+        const [term, def] = word.split(" = ");
+
+        const wordDiv = document.createElement("div");
+        const wordTitle = document.createElement("div");
+        wordTitle.className = "word";
+        wordTitle.textContent = term;
+
+        const wordDef = document.createElement("div");
+        wordDef.className = "definition";
+        wordDef.textContent = def;
+
+        wordDiv.appendChild(wordTitle);
+        wordDiv.appendChild(wordDef);
+        details.appendChild(wordDiv);
+
+        const hr = document.createElement("hr");
+        details.appendChild(hr);
+      });
+    }
+
+    container.appendChild(details);
+  });
+
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
+</script>
+
+</body>
+</html>
