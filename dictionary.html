@@ -137,32 +137,37 @@
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
   alphabet.split("").forEach(letter => {
-    const filteredWords = words
-      .filter(w => w[0].toUpperCase() === letter)
-      .sort((a, b) => a.localeCompare(b));
-
-    if (filteredWords.length === 0) return;
-
     const details = document.createElement("details");
     const summary = document.createElement("summary");
     summary.textContent = letter;
     details.appendChild(summary);
 
-    filteredWords.forEach(word => {
-      const [term, def] = word.split(" = ");
+    const filteredWords = words
+      .filter(w => w[0].toUpperCase() === letter)
+      .sort((a, b) => a.localeCompare(b));
 
-      const wordTitle = document.createElement("div");
-      wordTitle.className = "word";
-      wordTitle.textContent = term;
+    if (filteredWords.length === 0) {
+      const empty = document.createElement("div");
+      empty.className = "definition";
+      empty.textContent = "This Letter Has No Slang Yet";
+      details.appendChild(empty);
+    } else {
+      filteredWords.forEach(word => {
+        const [term, def] = word.split(" = ");
 
-      const wordDef = document.createElement("div");
-      wordDef.className = "definition";
-      wordDef.textContent = def;
+        const wordTitle = document.createElement("div");
+        wordTitle.className = "word";
+        wordTitle.textContent = term;
 
-      details.appendChild(wordTitle);
-      details.appendChild(wordDef);
-      details.appendChild(document.createElement("hr"));
-    });
+        const wordDef = document.createElement("div");
+        wordDef.className = "definition";
+        wordDef.textContent = def;
+
+        details.appendChild(wordTitle);
+        details.appendChild(wordDef);
+        details.appendChild(document.createElement("hr"));
+      });
+    }
 
     container.appendChild(details);
   });
