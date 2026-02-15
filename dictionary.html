@@ -2,184 +2,121 @@
 <html>
 <head>
   <title>The Deektionary</title>
+  <!-- Favicon from assets folder -->
   <link rel="icon" type="image/png" href="assets/favicon.png">
   <style>
     body {
       margin: 0;
       background: black;
       color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
       font-family: 'Courier New', monospace;
-      padding: 40px;
+      overflow: hidden;
     }
 
+    /* Fade-in for subtexts */
+    .fade-text {
+      opacity: 0;
+      font-size: 1.2rem;
+      text-shadow: 0 0 5px white;
+      margin-bottom: 10px;
+      animation: fadeIn 1s forwards;
+    }
+
+    .fade-text.second {
+      animation-delay: 1s; /* fades in after first text */
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    /* Main title falling letters */
     h1 {
-      text-align: center;
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-      text-shadow: 0 0 10px white;
+      font-size: 3rem;
+      letter-spacing: 4px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      text-shadow: 0 0 8px white, 0 0 12px white;
     }
 
-    .subtitle {
-      text-align: center;
+    h1 span {
+      opacity: 0;
+      display: inline-block;
+      transform: translateY(-200px);
+      animation: fall 0.8s forwards;
+    }
+
+    @keyframes fall {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Button fade-in */
+    a button {
+      margin-top: 30px;
+      padding: 12px 30px;
       font-size: 1.2rem;
-      margin-bottom: 40px;
-      color: #fff;
-      text-shadow: 0 0 5px white;
-    }
-
-    details {
-      margin-bottom: 10px;
-      background: #111;
-      padding: 10px;
-      border: 1px solid #333;
-      border-radius: 5px;
-      transition: all 0.3s ease;
-    }
-
-    details[open] {
-      box-shadow: 0 0 10px white;
-    }
-
-    summary {
-      cursor: pointer;
-      font-size: 1.2rem;
-      font-weight: bold;
-      text-shadow: 0 0 5px white;
-    }
-
-    .word {
-      font-size: 1.2rem;
-      font-weight: bold;
-      margin: 10px 0 2px 0;
-    }
-
-    .definition {
-      font-size: 1rem;
-      margin: 0 0 8px 10px;
-      color: #fff;
-    }
-
-    hr {
-      border: none;
-      border-top: 1px solid #333;
-      margin: 5px 0 10px 0;
-    }
-
-    .back {
-      display: block;
-      margin: 20px auto;
-      width: fit-content;
-      padding: 10px 20px;
       background: white;
       color: black;
-      text-align: center;
+      border: none;
       border-radius: 25px;
-      transition: 0.3s;
       cursor: pointer;
+      opacity: 0; /* initially hidden */
+      animation: fadeInButton 1s forwards;
+      animation-delay: 3.5s; /* after falling text */
+      transition: 0.3s;
     }
 
-    .back:hover {
+    a button:hover {
       background: #eee;
       color: black;
       text-shadow: 0 0 3px white;
+    }
+
+    @keyframes fadeInButton {
+      to { opacity: 1; }
     }
   </style>
 </head>
 <body>
 
-<h1>The Deektionary</h1>
-<div class="subtitle">Get to know the slang</div>
+<div class="fade-text first">Hello Niche Community</div>
+<div class="fade-text second">and welcome to</div>
+<h1 id="title"></h1>
 
-<div id="letters"></div>
-
-<button class="back" onclick="scrollToTop()">Back To Top</button>
+<!-- Single button linking to dictionary page -->
+<a href="dictionary.html">
+  <button>View Deektionary</button>
+</a>
 
 <script>
-const words = [
-  "Ashwadganda = chill asf",
-  "Baseball Bat = tung tung tung sahur",
-  "Big Vocal Bull = reddit bulls",
-  "Bitch = beech",
-  "Bootploog = buttplug",
-  "Claby = caleb",
-  "Dick = deek",
-  "Diddy = sus",
-  "El Cinco = the fith son of sony",
-  "El Cinco Reparar Hombre = ps5 repair man",
-  "El Cuatro = the foruth son of sony",
-  "El Wiro = pops wire",
-  "Fuck = fook",
-  "Fuzz = furry huzz",
-  "Gdicore = sky and djicore",
-  "Gogenggenggogeng = kekos ritual",
-  "Jokes Reposts = the worst decisions a human can make",
-  "Lost Media = we dont know / care",
-  "Niche = lost media",
-  "Ohio = im serious",
-  "Peep = whats your punishment",
-  "Pibby Virus = sick/ infected",
-  "Piss = pees",
-  "Poosay = pussy",
-  "Rapense = lovense revamp",
-  "Sad = secretly affeliated (with) diddy (ty TR son of CR)",
-  "Scd = super cool diddy",
-  "Scp = everything",
-  "Shit = sheet",
-  "Sus = soos",
-  "Teets = tits",
-  "Thatoneguyty = ty",
-  "Tristdigijule = Tristan",
-  "Uncslop = ur literally 40",
-  "Wabi Sabi = offcenter"
-];
-
-const container = document.getElementById("letters");
-const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-alphabet.split("").forEach(letter => {
-  const details = document.createElement("details");
-  const summary = document.createElement("summary");
-  summary.textContent = letter;
-  details.appendChild(summary);
-
-  const filteredWords = words
-    .map(w => {
-      const [term, def] = w.split(" = ");
-      return { term, def };
-    })
-    .filter(item => item.term[0].toUpperCase() === letter)
-    .sort((a, b) => a.term.localeCompare(b.term));
-
-  if (filteredWords.length === 0) {
-    const empty = document.createElement("div");
-    empty.className = "definition";
-    empty.textContent = "This Letter Has No Slang Yet";
-    details.appendChild(empty);
-  } else {
-    filteredWords.forEach(item => {
-      const wordDiv = document.createElement("div");
-
-      const wordTitle = document.createElement("div");
-      wordTitle.className = "word";
-      wordTitle.textContent = item.term;
-
-      const wordDef = document.createElement("div");
-      wordDef.className = "definition";
-      wordDef.textContent = item.def;
-
-      wordDiv.appendChild(wordTitle);
-      wordDiv.appendChild(wordDef);
-      details.appendChild(wordDiv);
-      details.appendChild(document.createElement("hr"));
+  // Click sound (uses local asset if added later)
+  const clickSound = new Audio('assets/click.mp3'); 
+  document.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      clickSound.currentTime = 0;
+      clickSound.play();
     });
-  }
+  });
 
-  container.appendChild(details);
-});
+  // Falling letters text
+  const text = "The Deektionary";
+  const title = document.getElementById("title");
 
-function scrollToTop() {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+  text.split("").forEach((letter, index) => {
+    const span = document.createElement("span");
+    span.textContent = letter === " " ? "\u00A0" : letter;
+    span.style.animationDelay = (index * 0.05 + 2) + "s"; // starts after 2s
+    title.appendChild(span);
+  });
 </script>
 
 </body>
