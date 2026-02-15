@@ -87,11 +87,12 @@
 </head>
 <body>
 
-<h1>The Deeksoniary</h1>
+<h1>The Deektionary</h1>
 <div class="subtitle">Get to know the slang</div>
 
 <div id="letters"></div>
 
+<!-- Back To Top button -->
 <button class="back" onclick="scrollToTop()">Back To Top</button>
 
 <script>
@@ -155,33 +156,4 @@
       filteredWords.forEach(word => {
         const [term, def] = word.split(" = ");
 
-        const wordTitle = document.createElement("div");
-        wordTitle.className = "word";
-        wordTitle.textContent = term;
-
-        const wordDef = document.createElement("div");
-        wordDef.className = "definition";
-        wordDef.textContent = def;
-
-        details.appendChild(wordTitle);
-        details.appendChild(wordDef);
-        details.appendChild(document.createElement("hr"));
-      });
-    }
-
-    container.appendChild(details);
-  });
-
-  function scrollToTop() {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  }
-</script>
-
-</body>
-</html>
-
-
-
+        const wordTitle = document.create
