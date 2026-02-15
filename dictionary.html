@@ -92,68 +92,95 @@
 
 <div id="letters"></div>
 
-<!-- Back To Top button -->
 <button class="back" onclick="scrollToTop()">Back To Top</button>
 
 <script>
-  const words = [
-    "Ashwadganda = chill asf",
-    "Baseball Bat = tung tung tung sahur",
-    "Big Vocal Bull = reddit bulls",
-    "Bitch = beech",
-    "Bootploog = buttplug",
-    "Claby = caleb",
-    "Dick = deek",
-    "Diddy = sus",
-    "El Cinco = the fith son of sony",
-    "El Cinco Reparar Hombre = ps5 repair man",
-    "El Cuatro = the foruth son of sony",
-    "El Wiro = pops wire",
-    "Fuck = fook",
-    "Fuzz = furry huzz",
-    "Gdicore = sky and djicore",
-    "Gogenggenggogeng = kekos ritual",
-    "Jokes Reposts = the worst decisions a human can make",
-    "Lost Media = we dont know / care",
-    "Niche = lost media",
-    "Ohio = im serious",
-    "Peep = whats your punishment",
-    "Pibby Virus = sick/ infected",
-    "Piss = pees",
-    "Poosay = pussy",
-    "Rapense = lovense revamp",
-    "Sad = secretly affeliated (with) diddy (ty TR son of CR)",
-    "Scd = super cool diddy",
-    "Scp = everything",
-    "Shit = sheet",
-    "Sus = soos",
-    "Teets = tits",
-    "Thatoneguyty = ty",
-    "Tristdigijule = Tristan",
-    "Uncslop = ur literally 40",
-    "Wabi Sabi = offcenter"
-  ];
+const words = [
+  "Ashwadganda = chill asf",
+  "Baseball Bat = tung tung tung sahur",
+  "Big Vocal Bull = reddit bulls",
+  "Bitch = beech",
+  "Bootploog = buttplug",
+  "Claby = caleb",
+  "Dick = deek",
+  "Diddy = sus",
+  "El Cinco = the fith son of sony",
+  "El Cinco Reparar Hombre = ps5 repair man",
+  "El Cuatro = the foruth son of sony",
+  "El Wiro = pops wire",
+  "Fuck = fook",
+  "Fuzz = furry huzz",
+  "Gdicore = sky and djicore",
+  "Gogenggenggogeng = kekos ritual",
+  "Jokes Reposts = the worst decisions a human can make",
+  "Lost Media = we dont know / care",
+  "Niche = lost media",
+  "Ohio = im serious",
+  "Peep = whats your punishment",
+  "Pibby Virus = sick/ infected",
+  "Piss = pees",
+  "Poosay = pussy",
+  "Rapense = lovense revamp",
+  "Sad = secretly affeliated (with) diddy (ty TR son of CR)",
+  "Scd = super cool diddy",
+  "Scp = everything",
+  "Shit = sheet",
+  "Sus = soos",
+  "Teets = tits",
+  "Thatoneguyty = ty",
+  "Tristdigijule = Tristan",
+  "Uncslop = ur literally 40",
+  "Wabi Sabi = offcenter"
+];
 
-  const container = document.getElementById("letters");
-  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const container = document.getElementById("letters");
+const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-  alphabet.split("").forEach(letter => {
-    const details = document.createElement("details");
-    const summary = document.createElement("summary");
-    summary.textContent = letter;
-    details.appendChild(summary);
+alphabet.split("").forEach(letter => {
+  const details = document.createElement("details");
+  const summary = document.createElement("summary");
+  summary.textContent = letter;
+  details.appendChild(summary);
 
-    const filteredWords = words
-      .filter(w => w[0].toUpperCase() === letter)
-      .sort((a, b) => a.localeCompare(b));
+  const filteredWords = words
+    .map(w => {
+      const [term, def] = w.split(" = ");
+      return { term, def };
+    })
+    .filter(item => item.term[0].toUpperCase() === letter)
+    .sort((a, b) => a.term.localeCompare(b.term));
 
-    if (filteredWords.length === 0) {
-      const empty = document.createElement("div");
-      empty.className = "definition";
-      empty.textContent = "This Letter Has No Slang Yet";
-      details.appendChild(empty);
-    } else {
-      filteredWords.forEach(word => {
-        const [term, def] = word.split(" = ");
+  if (filteredWords.length === 0) {
+    const empty = document.createElement("div");
+    empty.className = "definition";
+    empty.textContent = "This Letter Has No Slang Yet";
+    details.appendChild(empty);
+  } else {
+    filteredWords.forEach(item => {
+      const wordDiv = document.createElement("div");
 
-        const wordTitle = document.create
+      const wordTitle = document.createElement("div");
+      wordTitle.className = "word";
+      wordTitle.textContent = item.term;
+
+      const wordDef = document.createElement("div");
+      wordDef.className = "definition";
+      wordDef.textContent = item.def;
+
+      wordDiv.appendChild(wordTitle);
+      wordDiv.appendChild(wordDef);
+      details.appendChild(wordDiv);
+      details.appendChild(document.createElement("hr"));
+    });
+  }
+
+  container.appendChild(details);
+});
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
