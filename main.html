@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Deeksoniary</title>
-  <title>Deektionary</title>
-  <!-- Favicon from assets folder -->
-  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <title>The Deektionary</title>
+  <link rel="icon" type="image/png" href="assets/lock.png">
   <style>
     body {
       margin: 0;
@@ -18,108 +16,53 @@
       font-family: 'Courier New', monospace;
       overflow: hidden;
     }
-
-    /* Fade-in for subtexts */
-    .fade-text {
-      opacity: 0;
-      font-size: 1.2rem;
-      text-shadow: 0 0 5px white;
-      margin-bottom: 10px;
-      animation: fadeIn 1s forwards;
-    }
-
-    .fade-text.second {
-      animation-delay: 1s; /* fades in after first text */
-    }
-
-    @keyframes fadeIn {
-      to { opacity: 1; }
-    }
-
-    /* Main title falling letters */
-    h1 {
-      font-size: 3rem;
-      letter-spacing: 4px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      text-shadow: 0 0 8px white, 0 0 12px white;
-    }
-
-    h1 span {
-      opacity: 0;
-      display: inline-block;
-      transform: translateY(-200px);
-      animation: fall 0.8s forwards;
-    }
-
-    @keyframes fall {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* Button fade-in */
-    a button {
-      margin-top: 30px;
-      padding: 12px 30px;
-      font-size: 1.2rem;
-      background: white;
-      color: black;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      opacity: 0; /* initially hidden */
-      animation: fadeInButton 1s forwards;
-      animation-delay: 3.5s; /* after falling text */
-      transition: 0.3s;
-    }
-
-    a button:hover {
-      background: #eee;
-      color: black;
-      text-shadow: 0 0 3px white;
-    }
-
-    @keyframes fadeInButton {
-      to { opacity: 1; }
-    }
+    .fade-text { opacity: 0; font-size: 1.2rem; text-shadow: 0 0 5px white; margin-bottom: 10px; animation: fadeIn 1s forwards; }
+    .fade-text.second { animation-delay: 1s; }
+    @keyframes fadeIn { to { opacity: 1; } }
+    h1 { font-size: 3rem; letter-spacing: 4px; display: flex; flex-wrap: wrap; justify-content: center; text-shadow: 0 0 8px white, 0 0 12px white; }
+    h1 span { opacity: 0; display: inline-block; transform: translateY(-200px); animation: fall 0.8s forwards; }
+    @keyframes fall { to { opacity: 1; transform: translateY(0); } }
+    a button { margin-top: 30px; padding: 12px 30px; font-size: 1.2rem; background: white; color: black; border: none; border-radius: 25px; cursor: pointer; opacity: 0; animation: fadeInButton 1s forwards; animation-delay: 3.5s; transition: 0.3s; }
+    a button:hover { background: #eee; color: black; text-shadow: 0 0 3px white; }
+    @keyframes fadeInButton { to { opacity: 1; } }
   </style>
 </head>
 <body>
+
+<script>
+  // Redirect back to password if not authenticated
+  if(localStorage.getItem("authenticated") !== "true") {
+    window.location.href = "index.html";
+  }
+</script>
 
 <div class="fade-text first">Hello Niche Community</div>
 <div class="fade-text second">and welcome to</div>
 <h1 id="title"></h1>
 
 <a href="dictionary.html">
-  <button>View Deeksoniary</button>
   <button>View Deektionary</button>
 </a>
 
 <script>
-  // Click sound (uses local asset if added later)
-  const clickSound = new Audio('assets/click.mp3'); 
-  document.querySelectorAll('button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      clickSound.currentTime = 0;
-      clickSound.play();
-    });
+const clickSound = new Audio('assets/click.mp3'); 
+document.querySelectorAll('button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    clickSound.currentTime = 0;
+    clickSound.play();
   });
+});
 
-  const text = "The Deeksoniary";
-  const text = "The Deektionary";
-  const title = document.getElementById("title");
+const text = "The Deektionary";
+const title = document.getElementById("title");
 
-  text.split("").forEach((letter, index) => {
-    const span = document.createElement("span");
-    span.textContent = letter === " " ? "\u00A0" : letter;
-    span.style.animationDelay = (index * 0.05 + 2) + "s"; // starts after 2s
-    title.appendChild(span);
-  });
+text.split("").forEach((letter, index) => {
+  const span = document.createElement("span");
+  span.textContent = letter === " " ? "\u00A0" : letter;
+  span.style.animationDelay = (index * 0.05 + 2) + "s";
+  title.appendChild(span);
+});
 </script>
 
 </body>
 </html>
-
