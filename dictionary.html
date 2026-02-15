@@ -2,7 +2,6 @@
 <html>
 <head>
   <title>The Deeksoniary</title>
-  <!-- Favicon from assets folder -->
   <link rel="icon" type="image/png" href="assets/favicon.png">
   <style>
     body {
@@ -93,90 +92,72 @@
 
 <div id="letters"></div>
 
-<!-- Back To Top button -->
 <button class="back" onclick="scrollToTop()">Back To Top</button>
 
 <script>
-  // Click sound (uses local asset if added later)
-  const clickSound = new Audio('assets/click.mp3'); 
-  document.querySelectorAll('button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      clickSound.currentTime = 0;
-      clickSound.play();
-    });
-  });
-
   const words = [
-"Ashwadganda = chill asf"
-"Baseball Bat = tung tung tung sahur"
-"Bitch = beech"
-"Claby = caleb"
-"Dick = deek"
-"Diddy = sus"
-"El Cinco = the fith son of sony"
-"El Cinco Reparar Hombre = ps5 repair man"
-"El Cuatro = the foruth son of sony"
-"El Wiro = pops wire"
-"Fuck = fook"
-"Fuzz = furry huzz"
-"Gdicore = sky and djicore"
-"Gogenggenggogeng = kekos ritual"
-"Jokes Reposts = the worst decisions a human can make"
-"Lost Media = we dont know / care"
-"Niche = lost media"
-"Ohio = im serious"
-"Peep = whats your punishment"
-"Pibby Virus = sick/ infected"
-"Piss = pees"
-"Sad = secretly affeliated (with) diddy (ty TR son of CR)"
-"Scd = super cool diddy"
-"Scp = everything"
-"Shit = sheet"
-"Sus = soos"
-"Thatoneguyty = ty"
-"Tristdigijule = Tristan"
-"Uncslop = ur literally 40"
-"Wabi Sabi = offcenter"
+    "Ashwadganda = chill asf",
+    "Baseball Bat = tung tung tung sahur",
+    "Bitch = beech",
+    "Claby = caleb",
+    "Dick = deek",
+    "Diddy = sus",
+    "El Cinco = the fith son of sony",
+    "El Cinco Reparar Hombre = ps5 repair man",
+    "El Cuatro = the foruth son of sony",
+    "El Wiro = pops wire",
+    "Fuck = fook",
+    "Fuzz = furry huzz",
+    "Gdicore = sky and djicore",
+    "Gogenggenggogeng = kekos ritual",
+    "Jokes Reposts = the worst decisions a human can make",
+    "Lost Media = we dont know / care",
+    "Niche = lost media",
+    "Ohio = im serious",
+    "Peep = whats your punishment",
+    "Pibby Virus = sick/ infected",
+    "Piss = pees",
+    "Sad = secretly affeliated (with) diddy (ty TR son of CR)",
+    "Scd = super cool diddy",
+    "Scp = everything",
+    "Shit = sheet",
+    "Sus = soos",
+    "Thatoneguyty = ty",
+    "Tristdigijule = Tristan",
+    "Uncslop = ur literally 40",
+    "Wabi Sabi = offcenter"
   ];
 
   const container = document.getElementById("letters");
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
   alphabet.split("").forEach(letter => {
+    const filteredWords = words
+      .filter(w => w[0].toUpperCase() === letter)
+      .sort((a, b) => a.localeCompare(b));
+
+    if (filteredWords.length === 0) return;
+
     const details = document.createElement("details");
     const summary = document.createElement("summary");
     summary.textContent = letter;
     details.appendChild(summary);
 
-    const filteredWords = words
-      .filter(w => w[0].toUpperCase() === letter)
-      .sort((a, b) => a.localeCompare(b));
+    filteredWords.forEach(word => {
+      const [term, def] = word.split(" = ");
 
-    if (filteredWords.length === 0) {
-      const empty = document.createElement("p");
-      empty.textContent = "No words for this letter yet.";
-      details.appendChild(empty);
-    } else {
-      filteredWords.forEach(word => {
-        const [term, def] = word.split(" = ");
+      const wordTitle = document.createElement("div");
+      wordTitle.className = "word";
+      wordTitle.textContent = term;
 
-        const wordDiv = document.createElement("div");
-        const wordTitle = document.createElement("div");
-        wordTitle.className = "word";
-        wordTitle.textContent = term;
+      const wordDef = document.createElement("div");
+      wordDef.className = "definition";
+      wordDef.textContent = def;
 
-        const wordDef = document.createElement("div");
-        wordDef.className = "definition";
-        wordDef.textContent = def;
-
-        wordDiv.appendChild(wordTitle);
-        wordDiv.appendChild(wordDef);
-        details.appendChild(wordDiv);
-
-        const hr = document.createElement("hr");
-        details.appendChild(hr);
-      });
-    }
+      details.appendChild(wordTitle);
+      details.appendChild(wordDef);
+      details.appendChild(document.createElement("hr"));
+    });
 
     container.appendChild(details);
   });
